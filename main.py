@@ -43,9 +43,12 @@ def make_reply(text):
     )
     return response.choices[0].message.content
 
+ws = None
 
 async def runner():
-    async with websockets.connect(WS_URL) as ws:
+    global ws
+    async with websockets.connect(WS_URL) as wss:
+        ws = wss
         await ws.send(json.dumps({
             "type": "connect",
             "body": {
@@ -57,7 +60,17 @@ async def runner():
             if data['type'] == 'channel':
                 if data['body']['type'] == 'note':
                     note = data['body']['body']
+                    print("note")
                     await on_note(note)
+
+# ws send ping every 30 sec
+async def ping():
+    while True:
+        await asyncio.sleep(30)
+        await ws.send(json.dumps({"type": "ping"}))
+        print('ping')
+
+asyncio.get_event_loop().create_task(ping())
 
 
 async def on_note(note):
