@@ -15,6 +15,8 @@ openai.api_key = os.environ["OPENAI_API_KEY"]
 
 promptCache = ''
 
+print("ORANGE AI INIT")
+
 
 def update_prompt():
     try:
