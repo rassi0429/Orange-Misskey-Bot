@@ -26,7 +26,9 @@ def create_note(reply_id, text):
         "text": text,
         "replyId": reply_id
     }
-    r = requests.post(API_URL, data=data)
+    r = requests.post(API_URL, data=data, headers={
+        "Content-Type": "application/json"}
+                      )
     print("create note", r.status_code, r.text)
 
     if r.status_code == 200:
@@ -62,7 +64,9 @@ def make_reply(text):
     )
     return response.choices[0].message.content
 
+
 ws = None
+
 
 async def runner():
     global ws
@@ -82,12 +86,14 @@ async def runner():
                     print("note")
                     await on_note(note)
 
+
 # ws send ping every 30 sec
 async def ping():
     while True:
         await asyncio.sleep(30)
         await ws.send(json.dumps({"type": "ping"}))
         print('ping')
+
 
 asyncio.get_event_loop().create_task(ping())
 
