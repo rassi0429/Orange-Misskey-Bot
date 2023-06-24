@@ -20,22 +20,18 @@ promptCache = ''
 print("ORANGE AI INIT")
 
 
+# create note with application json
 def create_note(reply_id, text):
+    headers = {
+        'Content-Type': 'application/json',
+    }
     data = {
         "i": TOKEN,
-        "text": text,
-        "replyId": reply_id
+        "renoteId": reply_id,
+        "text": text
     }
-    r = requests.post(API_URL, data=data, headers={
-        "Content-Type": "application/json"}
-                      )
-    print("create note", r.status_code, r.text)
-
-    if r.status_code == 200:
-        return r.json()
-    else:
-        return None
-
+    r = requests.post(API_URL, headers=headers, json=data)
+    print(r.text)
 
 def update_prompt():
     try:
