@@ -27,7 +27,7 @@ def create_note(reply_id, text):
     }
     data = {
         "i": TOKEN,
-        "renoteId": reply_id,
+        "replyId": reply_id,
         "text": text
     }
     r = requests.post(API_URL, headers=headers, json=data)
