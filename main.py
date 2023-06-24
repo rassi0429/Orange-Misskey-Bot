@@ -13,9 +13,26 @@ MY_ID = api.i()['id']
 WS_URL = 'wss://misskey.neos.love/streaming?i=' + TOKEN
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
+API_URL = "https://misskey.neos.love/api/notes/create"
+
 promptCache = ''
 
 print("ORANGE AI INIT")
+
+
+def create_note(reply_id, text):
+    data = {
+        "i": TOKEN,
+        "text": text,
+        "replyId": reply_id
+    }
+    r = requests.post(API_URL, data=data)
+    print("create note", r.status_code, r.text)
+
+    if r.status_code == 200:
+        return r.json()
+    else:
+        return None
 
 
 def update_prompt():
@@ -81,7 +98,7 @@ async def on_note(note):
             if note["user"]["host"] is None:
                 text = note['text']
                 reply = make_reply(text)
-                api.notes_create(text=reply, reply_id=note['id'])
+                create_note(note['id'], reply)
             else:
                 print('not local note')
 
