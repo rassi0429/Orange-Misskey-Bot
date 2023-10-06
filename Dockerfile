@@ -1,4 +1,4 @@
-FROM python:3-alpine
+FROM python:3
 WORKDIR /app
 COPY main.py .
 COPY requirements.txt .
