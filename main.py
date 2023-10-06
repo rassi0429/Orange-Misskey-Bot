@@ -8,12 +8,13 @@ import openai
 from misskey import Misskey
 
 TOKEN = os.environ['MISS_KEY']
-api = Misskey('misskey.neos.love', i=TOKEN)
+ENDPOINT = os.environ['ENDPOINT']
+api = Misskey(ENDPOINT, i=TOKEN)
 MY_ID = api.i()['id']
-WS_URL = 'wss://misskey.neos.love/streaming?i=' + TOKEN
+WS_URL = 'wss://'+ ENDPOINT + '/streaming?i=' + TOKEN
 openai.api_key = os.environ["OPENAI_API_KEY"]
 
-API_URL = "https://misskey.neos.love/api/notes/create"
+API_URL = "https://" + ENDPOINT "/api/notes/create"
 
 promptCache = ''
 
