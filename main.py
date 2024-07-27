@@ -29,7 +29,8 @@ def create_note(reply_id, text):
     data = {
         "i": TOKEN,
         "replyId": reply_id,
-        "text": text
+        "text": text,
+        "localOnly": True
     }
     r = requests.post(API_URL, headers=headers, json=data)
     print(r.text)
